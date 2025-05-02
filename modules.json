@@ -1,0 +1,208 @@
+{
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "tray": {
+    "spacing": 5
+  },
+
+  "custom/clock": {
+    "exec": "date +'%d. %b %H:%M'",
+    "interval": 1,
+    "format": "{}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+
+  "custom/system": {
+    "format": "",
+    "tooltip": false
+  },
+  "cpu": {
+    "format": " {usage: >3}%",
+    "on-click": "alacritty -e htop"
+  },
+  "memory": {
+    "format": " {: >3}%",
+    "on-click": "alacritty -e htop"
+  },
+  "temperature": {
+    "thermal-zone": 4,
+    "critical-threshold": 80,
+    "format": "  {temperatureC}°C"
+  },
+  "disk": {
+    "format": " {percentage_used}% ",
+    "path": "/"
+  }, 
+    "group/hardware": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "not-memory",
+            "transition-left-to-right": false
+        },        
+        "modules": [
+            "custom/system",
+            "disk",
+            "cpu",
+            "memory"
+        ]
+    },
+  "backlight": {
+    "device": "eDP-1",
+    "format": "{icon} {percent: >3}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "on-scroll-down": "brightnessctl -c backlight set 5%-",
+    "on-scroll-up": "brightnessctl -c backlight set +5%",
+    "on-click": ""
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity: >3}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{icon}  {time}",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "network": {
+    "format": "⚠  Disabled",
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  Wired",
+    "format-disconnected": "⚠  Disconnected",
+    "tooltip-format": " {ifname} via {gwaddri}",
+    "tooltip-format-wifi": "   {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "  {ifname} ({ipaddr}/{cidr})",
+    "tooltip-format-disconnected": "⚠  Disconnected",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume: >3}%",
+    "format-bluetooth": "{icon} {volume: >3}%",
+    "format-muted": " muted",
+    "format-icons": {
+      "headphones": "",
+      "handsfree": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""]
+    },
+    "on-click": "pavucontrol",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  },
+  "custom/pacman": {
+    "format": " {}",
+    "interval": 7200, 
+    "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'", 
+    "exec-if": "exit 0", 
+    "on-click": "alacritty -e sudo pacman -Syu", 
+    "signal": 8
+  },
+  "custom/keyboard-layout": {
+    "exec": "hyprctl -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
+    "interval": 1,
+    "format": "  {}", 
+    "signal": 1, 
+    "tooltip": false,
+    "on-click": "~/.config/waybar/scripts/keyhint.sh"
+  },
+  "custom/launcher": {
+    "format": "",
+    "on-click": "rofi -show drun -replace",
+    "tooltip": false
+  },
+
+  "hyprland/workspaces#pacman": {
+    "active-only": false,
+    "all-outputs": true,
+    "format": "{icon}",
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "show-special": false,
+      "persistent-workspaces": {
+        "*": 5
+    },
+    "format-icons": {
+        "active": "<span font='12'>󰮯</span>",
+        "empty": "<span font='8'></span>",
+        "default": "󰊠"
+    }
+  },
+
+  "bluetooth": {
+    "format": " ",
+    "format-disabled": "󰂳",
+    "format-connected": "󰂱 {num_connections}",
+    "tooltip-format": " {device_alias}",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": " {device_alias} 󰂄{device_battery_percentage}%",
+    "tooltip": true,
+    "on-click": "blueman-manager"
+  },
+
+  "mpris": {
+    "interval": 10,
+    "format": "{player_icon} ",
+    "format-paused": "{status_icon} <i>{dynamic}</i>",
+    "on-click-middle": "playerctl play-pause",
+    "on-click": "playerctl previous",
+    "on-click-right": "playerctl next",
+    "scroll-step": 5.0,
+    "on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+    "on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+    "smooth-scrolling-threshold": 1,
+    "player-icons": {
+        "chromium": "",
+        "default": "",
+        "firefox": "",
+        "kdeconnect": "",
+        "mopidy": "",
+        "mpv": "󰐹",
+        "spotify": "",
+        "vlc": "󰕼"
+    },
+      "status-icons": {
+        "paused": "󰐎",
+        "playing": "",
+        "stopped": ""
+    },
+      "max-length": 30
+  },
+  "keyboard-state": {
+      "numlock": true,
+      "format": "{icon}",
+      "format-icons": {
+        "locked": " ",
+        "unlocked": " "
+    }
+  },
+   "custom/separator#blank": {
+   	"format": "",
+	"interval": "once",
+	"tooltip": false
+   }
+}
