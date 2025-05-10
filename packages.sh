@@ -37,13 +37,13 @@ sudo pacman -S --needed \
   # Arquivos e disco
   thunar gvfs udiskie udisks2 \
   # Sistema e hardware
-  htop neofetch fastfetch smartmontools zoxide spin tcpdump wireless_tools \
+  htop fastfetch smartmontools zoxide spin tcpdump wireless_tools \
   # Programação
   jdk-openjdk nodejs npm \
   # Música
   mpc mpd \
   # Diversos
-  obsidian firefox discord
+  obsidian discord
 
 echo ""
 echo "📦 Instalando pacotes do AUR (yay)..."
