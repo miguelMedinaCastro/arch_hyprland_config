@@ -1,10 +1,16 @@
 #!/bin/bash
 
-sudo pacman -Syu
-sudo pacman -S git base-devel
+set -e  # Encerra o script se algum comando falhar
 
+echo "🔄 Atualizando sistema..."
+sudo pacman -Syu --noconfirm
+
+echo "📦 Instalando ferramentas básicas (git, base-devel)..."
+sudo pacman -S --needed --noconfirm git base-devel
+
+echo ""
 echo "📦 Instalando pacotes do repositório oficial (pacman)..."
-sudo pacman -S --needed \
+sudo pacman -S --needed --noconfirm \
   # Sistema base
   base base-devel linux linux-firmware intel-ucode efibootmgr man-db zram-generator \
   # Terminal e CLI
@@ -12,7 +18,7 @@ sudo pacman -S --needed \
   nano vim helix git gdb wget unzip fzf rust-analyzer meson \
   # Rede e Bluetooth
   networkmanager network-manager-applet iw iwd net-tools arp-scan \
-  bluez bluez-deprecated-tools bluez-obex blueman \
+  bluez bluez-utils bluez-obex blueman \
   # Interface Gráfica
   hyprland hyprlock hyprpaper sway waybar wofi nitrogen sddm ly \
   xorg-server xorg-xinit \
@@ -32,7 +38,7 @@ sudo pacman -S --needed \
   ttf-fira-sans ttf-font-awesome \
   getnf \
   # Utilitários gráficos
-  grim slurp swappy playerctl dunst cava glava brightnessctl \
+  grim slurp swappy playerctl dunst  brightnessctl \
   gnome-boxes gnome-calculator gedit \
   # Arquivos e disco
   thunar gvfs udiskie udisks2 \
@@ -47,16 +53,11 @@ sudo pacman -S --needed \
 
 echo ""
 echo "📦 Instalando pacotes do AUR (yay)..."
-yay -S --needed \
+yay -Syu --noconfirm
+yay -S --needed --noconfirm \
   auto-cpufreq brave-bin spotify \
   getnf glava glava-debug \
   paru paru-debug yay yay-debug \
   visual-studio-code-bin swww
 
-echo ""
-
-#permissao de execucao
-#chmod +x packages.sh 
-
-#executar
-#./packages.sh
+echo "✅ Instalação finalizada com sucesso!"
